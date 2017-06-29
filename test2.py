@@ -11,7 +11,6 @@ from selenium.webdriver.common.keys  import Keys
 
 
 class Test2(unittest.TestCase):
-
     def setUp(self):
         global driver
         driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver")
@@ -20,9 +19,7 @@ class Test2(unittest.TestCase):
     
     def test_test2(self):
         x = WebDriverWait(driver, 10).\
-                               until(lambda driver: driver.find_element_by_name("q"))
-        
-        
+                               until(lambda driver: driver.find_element_by_name("q"))        
         """
         x.click()
         x.send_keys("Leatherback")
@@ -35,8 +32,7 @@ class Test2(unittest.TestCase):
         actions.perform()
         
         WebDriverWait(driver, 20).\
-            until(lambda driver: driver.find_element_by_xpath("//span[@title='Leatherback Turtle Picture']"))
-        
+            until(lambda driver: driver.find_element_by_xpath("//span[@title='Leatherback Turtle Picture']"))        
     
     def tearDown(self):
         driver.quit()
