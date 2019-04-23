@@ -1,0 +1,61 @@
+import unittest
+from appium import webdriver
+
+
+class SimpleCalculatorTests(unittest.TestCase):
+
+    def setUp(self):
+        desired_capabilities = {}
+
+        # 1. Choose your project
+        desired_capabilities['testobject_api_key'] = 'xyz'
+        desired_capabilities['platformName'] = 'Android'
+
+        # 2. Select your device:
+
+        #desired_capabilities['testobject_appium_version'] = '1.9.1'
+        desired_capabilities['platformVersion'] = '7'
+        desired_capabilities['deviceName'] = 'Samsung Galaxy S6'
+        desired_capabilities['phoneOnly'] = 'false'
+        desired_capabilities['tabletOnly'] = 'false'
+        desired_capabilities['privateDevicesOnly'] = 'false'
+
+        desired_capabilities['testobject_session_creation_timeout'] = '900000'
+        desired_capabilities['testobject_app_id'] = '1'
+
+        # 3. Where is your selected device located?
+        EU_endpoint = 'https://eu1.appium.testobject.com/wd/hub'
+        US_endpoint = 'https://us1.appium.testobject.com/wd/hub'
+
+        # The driver will take care of establishing the connection, so we must provide
+        # it with the correct endpoint and the requested capabilities.
+        self.driver = webdriver.Remote(US_endpoint, desired_capabilities)
+
+    # All test methods starts with the word "test_"
+    def test_addition(self):
+
+        self.driver.find_element_by_id("net.tecnotopia.SimpleCalculator:id/button1").click()
+        self.driver.find_element_by_id("net.tecnotopia.SimpleCalculator:id/buttonAdd").click()
+        self.driver.find_element_by_id("net.tecnotopia.SimpleCalculator:id/button2").click()
+        self.driver.find_element_by_id("net.tecnotopia.SimpleCalculator:id/buttonEquals").click()
+
+        result = self.driver.find_element_by_id("net.tecnotopia.SimpleCalculator:id/display")
+        self.assertEqual(str(result.text), '3')
+
+    def test_subtraction(self):
+        self.driver.find_element_by_id("net.tecnotopia.SimpleCalculator:id/button2").click()
+        self.driver.find_element_by_id("net.tecnotopia.SimpleCalculator:id/buttonSubtract").click()
+        self.driver.find_element_by_id("net.tecnotopia.SimpleCalculator:id/button1").click()
+
+
+        self.driver.find_element_by_id("net.tecnotopia.SimpleCalculator:id/buttonEquals").click()
+
+        result = self.driver.find_element_by_id("net.tecnotopia.SimpleCalculator:id/display")
+        self.assertEqual(str(result.text), '1')
+
+    def tearDown(self):
+        self.driver.quit()
+
+if __name__ == '__main__':
+    suite = unittest.TestLoader().loadTestsFromTestCase(SimpleCalculatorTests)
+    unittest.TextTestRunner(verbosity=2).run(suite)
