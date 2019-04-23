@@ -1,0 +1,44 @@
+import unittest
+from appium import webdriver
+
+
+class SimpleCalculatorTests(unittest.TestCase):
+
+    def setUp(self):
+        # set up appium
+        desired_caps = {}
+        desired_caps["platformName"] = "Android"
+        desired_caps["deviceName"] = "Samsung Galaxy J3"
+        desired_caps["appPackage"] = "net.tecnotopia.SimpleCalculator"
+        desired_caps["appActivity"]= "net.tecnotopia.SimpleCalculator.SimpleCalculatorActivity"
+        self.driver = webdriver.Remote(
+            command_executor="http://127.0.0.1:4723/wd/hub",
+            desired_capabilities=desired_caps)
+
+    def test_addition(self):
+
+        self.driver.find_element_by_id("net.tecnotopia.SimpleCalculator:id/button1").click()
+        self.driver.find_element_by_id("net.tecnotopia.SimpleCalculator:id/buttonAdd").click()
+        self.driver.find_element_by_id("net.tecnotopia.SimpleCalculator:id/button2").click()
+        self.driver.find_element_by_id("net.tecnotopia.SimpleCalculator:id/buttonEquals").click()
+
+        result = self.driver.find_element_by_id("net.tecnotopia.SimpleCalculator:id/display")
+        self.assertEqual(str(result.text), '3')
+
+    def test_subtraction(self):
+        self.driver.find_element_by_id("net.tecnotopia.SimpleCalculator:id/button2").click()
+        self.driver.find_element_by_id("net.tecnotopia.SimpleCalculator:id/buttonSubtract").click()
+        self.driver.find_element_by_id("net.tecnotopia.SimpleCalculator:id/button1").click()
+
+
+        self.driver.find_element_by_id("net.tecnotopia.SimpleCalculator:id/buttonEquals").click()
+
+        result = self.driver.find_element_by_id("net.tecnotopia.SimpleCalculator:id/display")
+        self.assertEqual(str(result.text), '1')
+
+    def tearDown(self):
+        self.driver.quit()
+
+if __name__ == '__main__':
+    suite = unittest.TestLoader().loadTestsFromTestCase(SimpleCalculatorTests)
+    unittest.TextTestRunner(verbosity=2).run(suite)
