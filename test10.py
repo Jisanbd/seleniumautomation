@@ -233,7 +233,7 @@ class Test1(unittest.TestCase):
     def setUp(self):
         global driver
         driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver")
-        driver.get("https://cafetownsend-angular-rails.herokuapp.com/login")
+        driver.get("#####")
         driver.maximize_window()
         username = WebDriverWait(driver, 10). \
             until(lambda driver: driver.find_element_by_xpath("//input[@type='text']"))
