@@ -216,3 +216,78 @@ class Test1(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+    ##########################################
+    from selenium import webdriver
+
+from selenium.webdriver.support.ui import WebDriverWait
+
+from selenium.webdriver.common.by import By
+
+import unittest
+
+import time
+
+
+class Test1(unittest.TestCase):
+
+    def setUp(self):
+        global driver
+        driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver")
+        driver.get("https://cafetownsend-angular-rails.herokuapp.com/login")
+        driver.maximize_window()
+        username = WebDriverWait(driver, 10). \
+            until(lambda driver: driver.find_element_by_xpath("//input[@type='text']"))
+        username.click()
+        username.send_keys("Luke")
+
+        password = WebDriverWait(driver, 10). \
+            until(lambda driver: driver.find_element_by_xpath("//input[@type='password']"))
+        password.click()
+        password.send_keys("Skywalker")
+
+        login = WebDriverWait(driver, 10). \
+            until(lambda driver: driver.find_element_by_xpath("//*[@id='login-form']/fieldset/button"))
+        login.click()
+
+        time.sleep(6)
+
+
+
+    def test_createuser(self):
+        
+        createuser = WebDriverWait(driver, 10). \
+            until(lambda driver: driver.find_element_by_id("bAdd"))
+        createuser.click()
+
+        firstname=WebDriverWait(driver, 10). \
+            until(lambda driver: driver.find_element_by_xpath("//*[input/@ng-model='selectedEmployee.firstName']"))
+        firstname.click()
+        firstname.send_keys("Mohammad Mohsin")
+
+        secondname=WebDriverWait(driver, 10). \
+            until(lambda driver: driver.find_element_by_xpath("//*[input/@ng-model='selectedEmployee.lastName']"))
+        secondname.click()
+        secondname.send_keys("Chowdhury")
+
+        startdate = WebDriverWait(driver, 10). \
+            until(lambda driver: driver.find_element_by_xpath("//*[input/@ng-model='selectedEmployee.startDate']"))
+        startdate.click()
+        startdate.send_keys("2019-12-06")
+
+        email = WebDriverWait(driver, 10). \
+            until(lambda driver: driver.find_element_by_xpath("//*[input/@ng-model='selectedEmployee.email']"))
+        email.click()
+        email.send_keys("chy.mohsin@gmail.com")
+
+        adduser= WebDriverWait(driver, 10). \
+            until(lambda driver: driver.find_element_by_class_name("formFooter"))
+        adduser.click()
+
+        time.sleep(6)
+
+    def tearDown(self):
+        driver.quit()
+
+
+if __name__ == "__main__":
+    unittest.main()
