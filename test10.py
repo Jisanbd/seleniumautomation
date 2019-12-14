@@ -157,7 +157,7 @@ class Test1(unittest.TestCase):
     def setUp(cls):
         cls.driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver")
         cls.driver.implicitly_wait(30)
-        cls.base_url = "https://cafetownsend-angular-rails.herokuapp.com/login"
+        cls.base_url = "#######################"
         cls.driver.get(cls.base_url)
         cls.driver.maximize_window()
 
